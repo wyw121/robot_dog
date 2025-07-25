@@ -1,0 +1,108 @@
+# Makefile for Robot Dog Test Program
+
+# 项目名称
+PROJECT = robot_dog_test
+
+# 编译器设置
+CC = arm-none-eabi-gcc
+OBJCOPY = arm-none-eabi-objcopy
+OBJDUMP = arm-none-eabi-objdump
+SIZE = arm-none-eabi-size
+
+# MCU设置
+MCU = cortex-m3
+STARTUP = startup_stm32f10x_md.s
+
+# 编译标志
+CFLAGS = -mcpu=$(MCU) -mthumb -Wall -O2 -g
+CFLAGS += -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
+CFLAGS += -I./src
+CFLAGS += -I./src/hardware
+CFLAGS += -I./src/behaviors
+CFLAGS += -I./src/communication
+CFLAGS += -I./lib/CMSIS/Include
+CFLAGS += -I./lib/STM32F10x_StdPeriph_Driver/inc
+
+# 链接标志
+LDFLAGS = -mcpu=$(MCU) -mthumb -T./stm32f103c8.ld
+LDFLAGS += -Wl,--gc-sections -Wl,-Map=$(PROJECT).map
+
+# 测试程序源文件
+TEST_SOURCES = src/test_program.c
+TEST_SOURCES += src/hardware/servo.c
+TEST_SOURCES += src/hardware/oled.c
+TEST_SOURCES += src/hardware/pwm.c
+TEST_SOURCES += src/hardware/delay.c
+TEST_SOURCES += src/behaviors/pet_action.c
+TEST_SOURCES += src/behaviors/face_config.c
+TEST_SOURCES += src/communication/bluetooth.c
+
+# 目标文件
+TEST_OBJECTS = $(TEST_SOURCES:.c=.o)
+
+# 默认目标 - 编译测试程序
+test: $(PROJECT).hex $(PROJECT).bin
+	@echo "测试程序编译完成!"
+	@echo "生成文件:"
+	@echo "  - $(PROJECT).hex (用于烧录)"
+	@echo "  - $(PROJECT).bin (二进制文件)"
+
+# 编译规则
+%.o: %.c
+	@echo "编译: $<"
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# 链接测试程序
+$(PROJECT).elf: $(TEST_OBJECTS)
+	@echo "链接: $@"
+	$(CC) $(LDFLAGS) $^ -o $@
+
+# 生成hex文件
+$(PROJECT).hex: $(PROJECT).elf
+	$(OBJCOPY) -O ihex $< $@
+
+# 生成bin文件
+$(PROJECT).bin: $(PROJECT).elf
+	$(OBJCOPY) -O binary $< $@
+
+# 显示大小信息
+size: $(PROJECT).elf
+	$(SIZE) $<
+
+# 清理
+clean:
+	@echo "清理编译文件..."
+	rm -f $(TEST_OBJECTS) $(PROJECT).elf $(PROJECT).hex $(PROJECT).bin $(PROJECT).map
+
+# 烧录测试程序 (使用ST-Link)
+flash-test: $(PROJECT).hex
+	@echo "烧录测试程序..."
+	st-flash --format ihex write $<
+
+# 使用STM32CubeProgrammer烧录
+flash-cube: $(PROJECT).hex
+	@echo "使用STM32CubeProgrammer烧录..."
+	STM32_Programmer_CLI -c port=SWD -w $< -v -rst
+
+# 使用串口烧录 (需要设置BOOT引脚)
+flash-uart: $(PROJECT).hex
+	@echo "使用串口烧录 (确保BOOT0=1, BOOT1=0)..."
+	stm32flash -w $< /dev/ttyUSB0
+
+# 调试
+debug: $(PROJECT).elf
+	arm-none-eabi-gdb $< -ex "target remote localhost:3333"
+
+# 帮助信息
+help:
+	@echo "可用命令:"
+	@echo "  test         - 编译测试程序"
+	@echo "  flash-test   - 使用ST-Link烧录测试程序"
+	@echo "  flash-cube   - 使用STM32CubeProgrammer烧录"
+	@echo "  flash-uart   - 使用串口烧录"
+	@echo "  size         - 显示程序大小"
+	@echo "  clean        - 清理编译文件"
+	@echo "  debug        - 启动调试器"
+	@echo "  help         - 显示此帮助信息"
+
+.PHONY: test clean size flash-test flash-cube flash-uart debug help

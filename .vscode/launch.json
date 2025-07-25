@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "🐛 调试STM32程序",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/robot_dog.elf",
+            "servertype": "stlink",
+            "device": "STM32F103C8",
+            "interface": "swd",
+            "serialNumber": "",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "parsed",
+            "serverArgs": []
+        },
+        {
+            "name": "🔍 附加到运行中的程序",
+            "type": "cortex-debug",
+            "request": "attach",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/robot_dog.elf",
+            "servertype": "stlink",
+            "device": "STM32F103C8",
+            "interface": "swd",
+            "serialNumber": ""
+        }
+    ]
+}

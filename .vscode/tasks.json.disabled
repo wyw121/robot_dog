@@ -1,0 +1,13 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "⚠️ VS Code Tasks 已禁用",
+            "type": "shell",
+            "command": "echo",
+            "args": ["VS Code Tasks 因兼容性问题已禁用。请使用直接命令脚本。参见：https://github.com/Microsoft/vscode/issues/253265"],
+            "group": "build",
+            "detail": "由于 GitHub Issue #253265，VS Code Tasks 已被禁用"
+        }
+    ]
+}

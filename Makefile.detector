@@ -1,0 +1,57 @@
+# 设备检测程序 Makefile
+# 编译设备检测器以帮助识别机器狗设备
+
+CC = gcc
+CFLAGS = -Wall -Wextra -std=c99 -municode
+LDFLAGS = -ladvapi32
+
+# 源文件和目标文件
+SRC = src/device_detector.c
+TARGET = device_detector.exe
+BUILD_DIR = build
+
+# 默认目标
+.PHONY: all clean device-detector help
+
+all: device-detector
+
+# 创建构建目录
+$(BUILD_DIR):
+	@if not exist "$(BUILD_DIR)" mkdir "$(BUILD_DIR)"
+
+# 编译设备检测器
+device-detector: $(BUILD_DIR) $(TARGET)
+
+$(TARGET): $(SRC)
+	@echo 正在编译设备检测程序...
+	$(CC) $(CFLAGS) -o $(BUILD_DIR)/$(TARGET) $(SRC) $(LDFLAGS)
+	@echo ✅ 编译完成: $(BUILD_DIR)/$(TARGET)
+	@echo.
+	@echo 📖 使用说明:
+	@echo    1. 运行: $(BUILD_DIR)/$(TARGET)
+	@echo    2. 按照程序提示操作
+	@echo    3. 插拔设备对比找到机器狗
+
+# 运行设备检测器
+run-detector: device-detector
+	@echo 🚀 启动设备检测器...
+	@$(BUILD_DIR)/$(TARGET)
+
+# 清理构建文件
+clean:
+	@if exist "$(BUILD_DIR)" rmdir /s /q "$(BUILD_DIR)"
+	@echo 🧹 清理完成
+
+# 显示帮助信息
+help:
+	@echo 📋 可用的命令:
+	@echo    make device-detector  - 编译设备检测程序
+	@echo    make run-detector     - 编译并运行设备检测程序
+	@echo    make clean            - 清理构建文件
+	@echo    make help             - 显示此帮助信息
+	@echo.
+	@echo 🎯 程序功能:
+	@echo    - 列出所有可用的串口设备
+	@echo    - 帮助识别机器狗设备名称
+	@echo    - 支持中文显示界面
+	@echo    - 提供设备插拔对比功能

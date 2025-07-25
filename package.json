@@ -1,0 +1,22 @@
+{
+    "name": "robot-dog-dev",
+    "version": "1.0.0",
+    "description": "9th Generation Robot Dog Custom Development Project",
+    "main": "src/main.c",
+    "scripts": {
+        "build": "make all",
+        "clean": "make clean",
+        "flash": "make flash",
+        "debug": "openocd -f interface/stlink.cfg -f target/stm32f1x.cfg"
+    },
+    "keywords": ["robot", "embedded", "stm32", "pet", "servo"],
+    "author": "Your Name",
+    "license": "MIT",
+    "devDependencies": {
+        "platformio": "^6.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "."
+    }
+}

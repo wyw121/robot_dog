@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "⚠️ VS Code Tasks 已禁用 - 使用 build-commands.ps1",
+            "type": "shell",
+            "command": "powershell",
+            "args": ["-Command", "Write-Host '由于 GitHub Issue #253265 兼容性问题，VS Code Tasks 已禁用。请使用 build-commands.ps1 脚本中的直接命令。' -ForegroundColor Red; Write-Host '运行: . .\\build-commands.ps1 然后使用 Start-SimpleBuild 等命令' -ForegroundColor Yellow"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [],
+            "detail": "GitHub Issue #253265: VS Code Tasks 兼容性问题解决方案"
+        },
+        {
+            "label": "ℹ️ 查看替代命令说明",
+            "type": "shell",
+            "command": "powershell",
+            "args": ["-Command", ". .\\build-commands.ps1"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "detail": "查看可用的替代构建命令"
+        }
+    ]
+}

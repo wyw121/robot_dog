@@ -1,0 +1,28 @@
+{
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/src/**",
+        "${workspaceFolder}/src/hardware",
+        "${workspaceFolder}/src/behaviors",
+        "${workspaceFolder}/src/communication",
+        "${workspaceFolder}/lib/CMSIS/Include",
+        "${workspaceFolder}/lib/STM32F10x_StdPeriph_Driver/inc"
+    ],
+    "C_Cpp.default.defines": [
+        "STM32F10X_MD",
+        "USE_STDPERIPH_DRIVER"
+    ],
+    "C_Cpp.default.compilerPath": "arm-none-eabi-gcc",
+    "C_Cpp.default.cStandard": "c11",
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.intelliSenseMode": "gcc-arm",
+    "files.associations": {
+        "*.h": "c",
+        "*.c": "c"
+    },
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "cortex-debug.enableTelemetry": false,
+    "cortex-debug.liveWatchRefreshRate": 500,
+    "cortex-debug.variableUseNaturalFormat": true
+}

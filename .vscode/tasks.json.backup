@@ -1,0 +1,115 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "🚀 快速开始：简化版构建",
+            "type": "shell",
+            "command": "${workspaceFolder}/build_simple.bat",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "编译简化版机器人小狗程序"
+        },
+        {
+            "label": "🔧 完整版构建",
+            "type": "shell",
+            "command": "${workspaceFolder}/quick_stm32_build.bat",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "使用STM32CubeIDE编译器编译完整程序"
+        },
+        {
+            "label": "🌟 高级功能构建",
+            "type": "shell",
+            "command": "${workspaceFolder}/build_advanced.bat",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "编译集成多种高级功能的演示程序"
+        },
+        {
+            "label": "🔧 安装ARM GCC编译器",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Start-Process",
+                "'https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads'",
+                "-Verb",
+                "Open"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "detail": "打开ARM GCC下载页面"
+        },
+        {
+            "label": "🔨 仅编译",
+            "type": "shell",
+            "command": "make",
+            "args": ["-f", "Makefile.test", "clean", "all"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "仅编译代码，不烧录"
+        },
+        {
+            "label": "📱 仅烧录",
+            "type": "shell",
+            "command": "make",
+            "args": ["-f", "Makefile.test", "flash"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "detail": "仅烧录已编译的程序"
+        }
+    ]
+}
