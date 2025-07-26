@@ -11,40 +11,40 @@ SIZE = arm-none-eabi-size
 
 # MCU设置
 MCU = cortex-m3
-STARTUP = startup_stm32f10x_md.s
+STARTUP = startup_stm32f103xb.s
 
 # 编译标志
 CFLAGS = -mcpu=$(MCU) -mthumb -Wall -O2 -g
-CFLAGS += -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
+CFLAGS += -DSTM32F103xB -DUSE_STDPERIPH_DRIVER
 CFLAGS += -I./src
-CFLAGS += -I./src/hardware
-CFLAGS += -I./src/behaviors
-CFLAGS += -I./src/communication
 CFLAGS += -I./lib/CMSIS/Include
+CFLAGS += -I./lib/CMSIS/Device/ST/STM32F10x/Include
 CFLAGS += -I./lib/STM32F10x_StdPeriph_Driver/inc
 
 # 链接标志
 LDFLAGS = -mcpu=$(MCU) -mthumb -T./stm32f103c8.ld
 LDFLAGS += -Wl,--gc-sections -Wl,-Map=$(PROJECT).map
+LDFLAGS += -nostartfiles
 
 # 源文件
 SOURCES = src/main.c
-SOURCES += src/hardware/servo.c
-SOURCES += src/hardware/oled.c
-SOURCES += src/hardware/pwm.c
-SOURCES += src/hardware/delay.c
-SOURCES += src/behaviors/pet_action.c
-SOURCES += src/behaviors/face_config.c
-SOURCES += src/communication/bluetooth.c
+SOURCES += src/system_stm32f1xx.c
+
+# 汇编源文件
+ASM_SOURCES = $(STARTUP)
 
 # 目标文件
-OBJECTS = $(SOURCES:.c=.o)
+OBJECTS = $(SOURCES:.c=.o) $(ASM_SOURCES:.s=.o)
 
 # 默认目标
 all: $(PROJECT).hex $(PROJECT).bin
 
 # 编译规则
 %.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# 汇编编译规则
+%.o: %.s
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # 链接

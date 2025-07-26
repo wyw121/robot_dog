@@ -56,6 +56,15 @@ typedef struct
 void delay_ms(uint32_t ms);
 
 /**
+ * @brief SystemInit函数 - 启动文件要求的系统初始化
+ */
+void SystemInit(void)
+{
+    // 启动文件调用的空系统初始化函数
+    // 具体初始化在system_init()中进行
+}
+
+/**
  * @brief 初始化扩展GPIO
  */
 void features_gpio_init(void)

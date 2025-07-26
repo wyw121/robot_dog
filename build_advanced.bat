@@ -31,6 +31,24 @@ echo ✅ 构建目录已创建
 echo.
 echo 🔧 编译高级功能模块...
 
+echo 正在编译启动文件...
+"%GCC_PATH%\arm-none-eabi-gcc.exe" ^
+    -mcpu=cortex-m3 ^
+    -mthumb ^
+    -Wall ^
+    -O2 ^
+    -fdata-sections ^
+    -ffunction-sections ^
+    -c startup_stm32f103xb.s ^
+    -o build\startup_stm32f103xb.o
+
+if %ERRORLEVEL% neq 0 (
+    echo ❌ 启动文件编译失败！
+    pause
+    exit /b 1
+)
+echo ✅ 启动文件编译完成
+
 echo 正在编译 main_advanced.c...
 "%GCC_PATH%\arm-none-eabi-gcc.exe" ^
     -mcpu=cortex-m3 ^
@@ -72,8 +90,11 @@ echo 🔗 链接高级功能程序...
 "%GCC_PATH%\arm-none-eabi-gcc.exe" ^
     -mcpu=cortex-m3 ^
     -mthumb ^
+    -specs=nosys.specs ^
+    -T stm32f103c8.ld ^
+    -Wl,-Map=build\robot_dog_advanced.map,--cref ^
     -Wl,--gc-sections ^
-    -nostartfiles ^
+    build\startup_stm32f103xb.o ^
     build\main_advanced.o ^
     build\custom_features_simple.o ^
     -o build\robot_dog_advanced.elf
